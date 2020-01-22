@@ -32,6 +32,9 @@ RUN nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
 #RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
 #    ~/.fzf/install --all
 
-#COPY ./entrypoint.sh /
+WORKDIR /code
+VOLUME /code
+
+COPY ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["bash"]
