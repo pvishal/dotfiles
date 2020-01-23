@@ -24,7 +24,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 
 # Install basic dev tools
 RUN apt-get update && \
-    apt-get install -y apt-utils git lsb-release build-essential neovim tmux && \
+    apt-get install -y apt-utils git lsb-release build-essential stow neovim tmux && \
     rm -rf /var/lib/apt/lists/*
 
 # Install ROS packages. May not be required if that comes in from the base image
@@ -41,24 +41,8 @@ RUN echo $TZ > /etc/timezone && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
-
-# Setup and configure tmux
-COPY .config/tmux /root/.config/tmux
-RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && \
-    ln -s /root/.config/tmux/tmux.conf /root/.tmux.conf
-
-
-# Setup nvim
-COPY .config/nvim /root/.config/nvim
-RUN nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
-
-# Configure FZF
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
-    /root/.fzf/install --all
-
-# Configure .bashrc
-COPY .bashrc.extra /root/.bashrc.extra
-RUN grep -qF -- .bashrc.extra /root/.bashrc || echo "source /root/.bashrc.extra" >> /root/.bashrc
+RUN git clone https://github.com/pvishal/dotfiles.git /root/dotfiles && \
+    /root/dotfiles/setup.sh
 
 WORKDIR /code
 VOLUME /code
