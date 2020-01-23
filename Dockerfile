@@ -1,4 +1,6 @@
-FROM osrf/ros:melodic-desktop-full
+ARG BASE_IMAGE=osrf/ros:melodic-desktop-full
+
+FROM $BASE_IMAGE
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Use bash
@@ -20,10 +22,12 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=$LANG LC_ALL=$LC_ALL LANGUAGE=$LANGUAGE
 
+# Install basic dev tools
 RUN apt-get update && \
     apt-get install -y apt-utils git lsb-release build-essential neovim tmux && \
     rm -rf /var/lib/apt/lists/*
 
+# Install ROS packages. May not be required if that comes in from the base image
 RUN apt-get update && \
     apt-get install -y ros-melodic-rviz ros-melodic-gmapping \
     ros-melodic-map-server ros-melodic-amcl ros-melodic-move-base ros-melodic-dwa-local-planner && \
