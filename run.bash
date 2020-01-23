@@ -25,4 +25,4 @@ docker run -it --rm \
     --volume ros-container-root:/root \
     --volume ~/Code:/code \
     pvishal/shell \
-    bash
+    bash -i

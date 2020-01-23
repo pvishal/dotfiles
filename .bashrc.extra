@@ -1,0 +1,13 @@
+
+# by vishal
+PS1="\n\[\033[36m\][\u]\[\033[32m\][\w]\n\[\033[33m\]⇒  \[\033[0m\]"
+
+alias vim='nvim'
+shopt -s histappend
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# export LS_COLORS="$(vivid generate snazzy)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf_ros.bash ] && source ~/.fzf_ros.bash
+export FZF_DEFAULT_OPTS='--height 40% --reverse'
+
