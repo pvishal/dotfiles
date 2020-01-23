@@ -7,9 +7,9 @@ incontainer() {
 }
 
 if incontainer; then
-  PS1="\n\[\e[31m\][\h]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]⇒  \[\e[0m\]"
+  PS1="\n\[\e[31m\][\h]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]# \[\e[0m\]"
 else
-  PS1="\n\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]# \[\e[0m\]"
+  PS1="\n\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]⇒  \[\e[0m\]"
 fi
 
 alias vim='nvim'
