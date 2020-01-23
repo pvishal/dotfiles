@@ -10,12 +10,12 @@ if incontainer; then
   PS1="\n\[\e[31m\][\h]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]# \[\e[0m\]"
 else
   PS1="\n\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]⇒  \[\e[0m\]"
+  export LS_COLORS="$(vivid generate snazzy)"
 fi
 
 alias vim='nvim'
 shopt -s histappend
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-# export LS_COLORS="$(vivid generate snazzy)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.fzf_ros.bash ] && source ~/.fzf_ros.bash
