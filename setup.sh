@@ -10,10 +10,11 @@ stow -v -d $SELFDIR -t $HOME tmux
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 echo "tmux setup done"
 
-# Install and setup nvim
-stow -v -d $SELFDIR -t $HOME nvim
-nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
-echo "nvim setup done"
+# Install and setup nvim. Disabling temporarily till an issue with Focal is
+# figured out
+#stow -v -d $SELFDIR -t $HOME nvim
+#nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
+#echo "nvim setup done"
 
 # Install and setup fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
