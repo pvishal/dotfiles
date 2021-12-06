@@ -6,9 +6,9 @@ SELFDIR=$(readlink -f $(dirname $0))
 
 
 # Install and setup tmux
-stow -v -d $SELFDIR -t $HOME tmux
-git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
-echo "tmux setup done"
+#stow -v -d $SELFDIR -t $HOME tmux
+#git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+#echo "tmux setup done"
 
 # Install and setup nvim. Disabling temporarily till an issue with Focal is
 # figured out
@@ -17,8 +17,8 @@ echo "tmux setup done"
 #echo "nvim setup done"
 
 # Install and setup fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
-$HOME/.fzf/install --all
+git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/fzf
+${HOME}/fzf/install --all
 echo "fzf setup done"
 
 # Install and setup bashrc
