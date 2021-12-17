@@ -38,8 +38,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
 " A collection of colorschemes
-Plug 'flazz/vim-colorschemes'
-" Plug 'joshdick/onedark.vim'
+" Plug 'flazz/vim-colorschemes'
+Plug 'joshdick/onedark.vim'
 
 " If you prefer Ctrl+h/j/k/l for navigating across vim/tmux splits,
 " this plugin will integrate Vim and Tmux, so that you can seamlessly
@@ -72,7 +72,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tell-k/vim-autopep8'
 
 " Import sorter for Python
-Plug 'fisadev/vim-isort'
+" Plug 'fisadev/vim-isort'
 
 " Initialize plugin system
 call plug#end()
@@ -163,12 +163,8 @@ if executable('ag')
 
 endif
 
-" This colorscheme mimics a default Atom colorscheme which I quite like
-colorscheme molokai
-
 " Ctrl+P opens a fuzzy filesearch window (powered by Fzf)
 nnoremap <C-p> :Files<CR>
-
 
 " Switch to last active tab
 let g:lasttab = 1
@@ -188,3 +184,6 @@ nnoremap cc :let @/ = ""<cr>
 nnoremap <Leader>e :Ex<CR>
 " I said write it!
 cmap w!! w !sudo tee % >/dev/null
+
+" This colorscheme mimics a default Atom colorscheme which I quite like
+colorscheme onedark

@@ -6,10 +6,12 @@ incontainer() {
   [ -f /.dockerenv ]
 }
 
+# Add a few lines and go back up. Makes sure one doesn't work with the cursor at the absolute
+# bottom of the screen
 if incontainer; then
-  PS1="\[\e[31m\][\h]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]# \[\e[0m\]"
+  PS1="\n\n\n\[\033[3A\]\[\e[31m\][\h]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]# \[\e[0m\]"
 else
-  PS1="\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]⇒  \[\e[0m\]"
+  PS1="\n\n\n\n\n\[\033[5A\]\[\e[36m\][\u]\[\e[32m\][\w]\n\[\e[33m\]⇒  \[\e[0m\]"
   export LS_COLORS="$(vivid generate snazzy)"
 fi
 
