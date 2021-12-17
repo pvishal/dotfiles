@@ -1,26 +1,77 @@
 #!/usr/bin/env bash
 set -e
 
+install_build_essential=true
+install_tmux=true
+install_nvim=false
+install_fzf=false
+install_bashrc=false
+install_docker=false
+install_vscode=false
+
+
 SELF=$(basename $0)
 SELFDIR=$(readlink -f $(dirname $0))
+CURRENT_DIR=$(pwd)
 
+DOWNLOAD_DIR=$HOME/Downloads
+cd $DOWNLOAD_DIR
+
+if [ "$install_build_essential" = true ]; then
+  sudo apt-get install build-essential cmake git ninja-build ccache curl \
+  libeigen3-dev
+  echo "Installed build essential packages"
+fi
 
 # Install and setup tmux
-#stow -v -d $SELFDIR -t $HOME tmux
-#git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
-#echo "tmux setup done"
+if [ "$install_tmux" = true ]; then
+  sudo apt-get install tmux
+  stow -v -d $SELFDIR -t $HOME tmux
+  git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+  echo "tmux setup done."
+  # TODO(Vishal): Install fonts
+fi
 
 # Install and setup nvim. Disabling temporarily till an issue with Focal is
 # figured out
-#stow -v -d $SELFDIR -t $HOME nvim
-#nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
-#echo "nvim setup done"
+if [ "$install_nvim" = true ]; then
+  sudo apt-get install neovim
+  stow -v -d $SELFDIR -t $HOME nvim
+  nvim -i NONE -c PlugInstall -c quitall > /dev/null 2>&1
+  echo "nvim setup done."
+fi
 
 # Install and setup fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/fzf
-${HOME}/fzf/install --all
-echo "fzf setup done"
+if [ "$install_fzf" = true ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/fzf
+  ${HOME}/fzf/install --all
+  echo "fzf setup done."
+fi
 
 # Install and setup bashrc
-grep -qF -- .bashrc.extra $HOME/.bashrc || echo "source $SELFDIR/bash/.bashrc.extra" >> $HOME/.bashrc
-echo ".bashrc setup done"
+if [ "$install_bashrc" = true ]; then
+  grep -qF -- .bashrc.extra $HOME/.bashrc || echo "source $SELFDIR/bash/.bashrc.extra" >> $HOME/.bashrc
+  echo ".bashrc setup done."
+fi
+
+# Install and setup docker
+if [ "$install_docker" = true ]; then
+  echo "Downloading and installing Docker"
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sh get-docker.sh
+  sleep 1
+  sudo usermod -aG docker $USER
+  newgrp docker
+  echo "docker install and setup done."
+fi
+
+# Install VSCode
+if [ "$install_vscode" = true ]; then
+  curl -sL -o vscode-latest.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
+  sudo apt install ./vscode-latest.deb
+  echo "vscode install done."
+fi
+
+
+
+
