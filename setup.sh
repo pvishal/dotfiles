@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
 set -e
 
+# TODO(Vishal): Configure via commandline args
 install_build_essential=true
 install_tmux=true
+install_powerline_font=false
 install_nvim=false
 install_fzf=false
 install_bashrc=false
 install_docker=false
 install_vscode=false
 
-
 SELF=$(basename $0)
 SELFDIR=$(readlink -f $(dirname $0))
 CURRENT_DIR=$(pwd)
 
-DOWNLOAD_DIR=$HOME/Downloads
+if [ -d "$HOME/Downloads" ]; then
+  DOWNLOAD_DIR=$HOME/Downloads
+else
+  DOWNLOAD_DIR=$SELFDIR/Downloads
+  mkdir -p $DOWNLOAD_DIR
+fi
+
 cd $DOWNLOAD_DIR
 
 if [ "$install_build_essential" = true ]; then
@@ -29,7 +36,18 @@ if [ "$install_tmux" = true ]; then
   stow -v -d $SELFDIR -t $HOME tmux
   git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
   echo "tmux setup done."
-  # TODO(Vishal): Install fonts
+
+  if [ "$install_powerline_font" = true ]; then
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Bold-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Bold%20Powerline.otf
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Medium-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Medium%20Powerline.otf
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Regular-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Regular%20Powerline.otf
+
+    local_font_dir=$HOME/.local/share/fonts
+    mkdir -p $local_font_dir
+    mv $DOWNLOAD_DIR/FuraMono*.otf $local_font_dir
+    fc-cache -f $local_font_dir
+    echo "Downloaded font and updated font cache."
+  fi
 fi
 
 # Install and setup nvim. Disabling temporarily till an issue with Focal is
