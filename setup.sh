@@ -2,7 +2,7 @@
 set -e
 
 # TODO(Vishal): Configure via commandline args
-install_build_essential=true
+install_build_essential=false
 install_tmux=true
 install_powerline_font=false
 install_nvim=false
@@ -25,7 +25,7 @@ fi
 cd $DOWNLOAD_DIR
 
 if [ "$install_build_essential" = true ]; then
-  sudo apt-get install build-essential cmake git ninja-build ccache curl \
+  sudo apt-get install build-essential gdb cmake git ninja-build ccache curl stow\
   libeigen3-dev
   echo "Installed build essential packages"
 fi
@@ -38,9 +38,9 @@ if [ "$install_tmux" = true ]; then
   echo "tmux setup done."
 
   if [ "$install_powerline_font" = true ]; then
-    curl -sL -o $DOWNLOAD_DIR/FuraMono-Bold-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Bold%20Powerline.otf
-    curl -sL -o $DOWNLOAD_DIR/FuraMono-Medium-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Medium%20Powerline.otf
-    curl -sL -o $DOWNLOAD_DIR/FuraMono-Regular-Powerline.otf https://github.com/powerline/fonts/blob/master/FiraMono/FuraMono-Regular%20Powerline.otf
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Bold-Powerline.otf https://raw.githubusercontent.com/powerline/fonts/master/FiraMono/FuraMono-Bold%20Powerline.otf
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Medium-Powerline.otf https://raw.githubusercontent.com/powerline/fonts/master/FiraMono/FuraMono-Medium%20Powerline.otf
+    curl -sL -o $DOWNLOAD_DIR/FuraMono-Regular-Powerline.otf https://raw.githubusercontent.com/powerline/fonts/master/FiraMono/FuraMono-Regular%20Powerline.otf
 
     local_font_dir=$HOME/.local/share/fonts
     mkdir -p $local_font_dir
