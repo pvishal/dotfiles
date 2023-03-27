@@ -2,12 +2,12 @@
 set -e
 
 # TODO(Vishal): Configure via commandline args
-install_build_essential=false
+install_build_essential=true
 install_tmux=true
 install_powerline_font=false
 install_nvim=false
-install_fzf=false
-install_bashrc=false
+install_fzf=true
+install_bashrc=true
 install_docker=false
 install_vscode=false
 
@@ -89,7 +89,3 @@ if [ "$install_vscode" = true ]; then
   sudo apt install ./vscode-latest.deb
   echo "vscode install done."
 fi
-
-
-
-
