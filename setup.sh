@@ -8,6 +8,7 @@ install_powerline_font=false
 install_nvim=false
 install_fzf=true
 install_bashrc=true
+install_starship=true
 install_docker=false
 install_vscode=false
 
@@ -20,6 +21,13 @@ if [ -d "$HOME/Downloads" ]; then
 else
   DOWNLOAD_DIR=$SELFDIR/Downloads
   mkdir -p $DOWNLOAD_DIR
+fi
+
+# If XDG_CONFIG_HOME is not set, set CONFIG_HOME to that else to $HOME/.config
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  CONFIG_HOME=$HOME/.config
+else
+  CONFIG_HOME=$XDG_CONFIG_HOME
 fi
 
 cd $DOWNLOAD_DIR
@@ -72,9 +80,26 @@ if [ "$install_bashrc" = true ]; then
   echo ".bashrc setup done."
 fi
 
+# Install and setup starship
+if [ "$install_starship" = true ]; then
+  echo "Downloading and setting up starship."
+  mkdir -p $HOME/programs/bin
+
+  curl -fsSL https://starship.rs/install.sh -o install.sh
+  sh install.sh -y -b $HOME/programs/bin > /dev/null 2>&1
+
+  echo "Copying configuration."
+  if [ ! -d "$CONFIG_HOME" ]; then
+    mkdir -p $CONFIG_HOME
+  fi
+  stow -v -d $SELFDIR -t $CONFIG_HOME config
+  grep -qF -- starship ~/.bashrc || echo 'eval "$(starship init bash)"' >> $HOME/.bashrc
+  echo "starship installed and configured."
+fi
+
 # Install and setup docker
 if [ "$install_docker" = true ]; then
-  echo "Downloading and installing Docker"
+  echo "Downloading and installing Docker."
   curl -fsSL https://get.docker.com -o get-docker.sh
   sh get-docker.sh
   sleep 1
